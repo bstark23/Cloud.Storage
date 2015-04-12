@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cloud.Storage.Azure</id>
+    <version>1.0.0</version>
+    <title>Cloud.Storage.Azure</title>
+    <authors>Ben Hanson</authors>
+    <owners>Lending Tree</owners>
+    <description>A NuGet package encapsulating Azure's storage API while maintaining all best practices for security and performance</description>
+    <copyright>Copyright 2014</copyright>
+    <dependencies>
+      <dependency id="EnterpriseLibrary.TransientFaultHandling" version="6.0.1304.0"  />
+      <dependency id="EnterpriseLibrary.TransientFaultHandling.WindowsAzure.Storage" version="6.0.1304.1"  />
+      <dependency id="Microsoft.Data.Edm" version="5.6.1"  />
+      <dependency id="Microsoft.Data.OData" version="5.6.1"  />
+      <dependency id="Microsoft.Data.Services.Client" version="5.6.1"  />
+      <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="2.0.3"  />
+      <dependency id="Newtonsoft.Json" version="6.0.3"  />
+      <dependency id="System.Spatial" version="5.6.1"  />
+      <dependency id="WindowsAzure.Storage" version="4.0.1"  />
+      <dependency id="RevenueAssurance.Logging" version="1.0.1" />
+    </dependencies>
+  </metadata>
+</package>
