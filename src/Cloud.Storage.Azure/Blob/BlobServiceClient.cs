@@ -34,14 +34,14 @@ namespace Cloud.Storage.Azure.Blob
             var container = AzureBlobClient.GetContainerReference(name);
             container.CreateIfNotExists();
 
-            return new BlobContainer(container);
+            return new Container(container);
         }
 
-        public BlobContainer GetContainer(string name)
+        public Container GetContainer(string name)
         {
             var container = AzureBlobClient.GetContainerReference(name);
 
-            return new BlobContainer(container);
+            return new Container(container);
         }
 
         private CloudBlobClient AzureBlobClient { get; set; }

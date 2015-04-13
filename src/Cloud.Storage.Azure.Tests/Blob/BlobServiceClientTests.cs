@@ -109,9 +109,9 @@ namespace Cloud.Storage.Azure.Tests.Blob
             Assert.IsFalse(exists);
         }
 
-        protected StorageServiceClient GetClient()
+        protected StorageClient GetClient()
         {
-            return StorageServiceClient.GetDefaultClient();
+            return StorageClient.GetDefaultClient();
         }
     }
 }

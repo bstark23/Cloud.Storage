@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Blob
 {
-    public class BlobContainer : IContainer
+    public class Container : IContainer
     {
-        internal BlobContainer(CloudBlobContainer blobContainer)
+        internal Container(CloudBlobContainer blobContainer)
         {
             AzureBlobContainer = blobContainer;
         }

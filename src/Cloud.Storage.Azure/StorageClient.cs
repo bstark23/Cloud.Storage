@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure
 {
-	public class StorageServiceClient : IStorageClient
+	public class StorageClient : IStorageClient
 	{
-		public StorageServiceClient()
+		public StorageClient()
 			: this(ConfigurationManager.AppSettings["StorageAccountName"], ConfigurationManager.AppSettings["StorageAccountKey"])
 		{
 		}
-		public StorageServiceClient(string storageAccountName, string storageAccountKey)
+		public StorageClient(string storageAccountName, string storageAccountKey)
 		{
 			ServicePointManager.Expect100Continue = false;
 			ServicePointManager.DefaultConnectionLimit = 100;
@@ -38,10 +38,10 @@ namespace Cloud.Storage.Azure
 		public ITableStorageClient Tables { get; private set; }
 
 
-		public static StorageServiceClient GetDefaultClient() { return new StorageServiceClient(); }
-		public static StorageServiceClient GetClient(string storageAccountName, string storageAccountKey)
+		public static StorageClient GetDefaultClient() { return new StorageClient(); }
+		public static StorageClient GetClient(string storageAccountName, string storageAccountKey)
 		{
-			return new StorageServiceClient(storageAccountName, storageAccountKey);
+			return new StorageClient(storageAccountName, storageAccountKey);
 		}
 
 		private CloudStorageAccount AzureStorageAccount { get; set; }
