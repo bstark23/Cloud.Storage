@@ -4,13 +4,8 @@ using Cloud.Storage.Queue;
 using Cloud.Storage.Table;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure
 {

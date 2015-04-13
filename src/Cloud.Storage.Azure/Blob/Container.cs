@@ -3,12 +3,10 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Blob
 {
-    public class Container : IContainer
+	public class Container : IContainer
     {
         internal Container(CloudBlobContainer blobContainer)
         {

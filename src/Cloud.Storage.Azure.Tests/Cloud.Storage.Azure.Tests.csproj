@@ -79,8 +79,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blob\BlobServiceClientTests.cs" />
+    <Compile Include="Blob\BlobStorageClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queue\QueueStorageClientTests.cs" />
+    <Compile Include="Table\TableStorageClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -90,10 +92,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queue\" />
-    <Folder Include="Table\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Cloud.Storage.Azure\Cloud.Storage.Azure.csproj">
       <Project>{026a0080-b954-4ce4-8f7a-880ae27c59a1}</Project>

@@ -1,14 +1,10 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Retries
 {
-    public class StorageRetryPolicy : IRetryPolicy
+	public class StorageRetryPolicy : IRetryPolicy
     {
         public StorageRetryPolicy(RetryStrategy retryStrategy)
         {

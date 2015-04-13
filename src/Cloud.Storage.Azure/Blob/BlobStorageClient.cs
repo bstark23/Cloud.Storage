@@ -3,14 +3,11 @@ using Cloud.Storage.Blob;
 using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Blob
 {
-    public class BlobStorageClient : IBlobStorageClient
+	public class BlobStorageClient : IBlobStorageClient
     {
         internal BlobStorageClient(CloudBlobClient azureBlobClient)
         {

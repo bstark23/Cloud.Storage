@@ -3,15 +3,13 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Blob
 {
-    public class Blob : IBlob
+	public class Blob : IBlob
     {
         internal Blob(CloudBlockBlob azureBlob)
         {
