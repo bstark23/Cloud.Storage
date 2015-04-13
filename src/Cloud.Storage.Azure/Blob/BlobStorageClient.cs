@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Blob
 {
-    public class BlobServiceClient : IBlobStorageClient
+    public class BlobStorageClient : IBlobStorageClient
     {
-        internal BlobServiceClient(CloudBlobClient azureBlobClient)
+        internal BlobStorageClient(CloudBlobClient azureBlobClient)
         {
             AzureBlobClient = azureBlobClient;
             AzureBlobClient.RetryPolicy = new StorageRetryPolicy(new Incremental(3, TimeSpan.FromMilliseconds(25D), TimeSpan.FromMilliseconds(25D)));

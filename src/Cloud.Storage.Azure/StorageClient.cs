@@ -30,7 +30,7 @@ namespace Cloud.Storage.Azure
 			var storageCredentials = new StorageCredentials(storageAccountName, storageAccountKey);
 			AzureStorageAccount = new CloudStorageAccount(storageCredentials, useHttps);
 
-			Blobs = new BlobServiceClient(AzureStorageAccount.CreateCloudBlobClient());
+			Blobs = new BlobStorageClient(AzureStorageAccount.CreateCloudBlobClient());
 		}
 
 		public IBlobStorageClient Blobs { get; private set; }
