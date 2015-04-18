@@ -3,6 +3,8 @@ A library for abstracting away low-level details of the various different cloud 
 
 This project will inevitably be deployed as a public nuget package.
 
+Note: the following is what is currently planned as I am currently the only contributor to the project.  I would love to have other contributors, especially in the area of additional data providers.  If/when that happens, the roadmap is likely to change.  My only requirement (currently) is that, once a major release is made, the interface related to that release should not have any breaking changes.  Additions to the interfaces are fully welcome, but changing existing interfaces/method definitions would require significantly solid logical reasoning. 
+
 # Project Roadmap
 
 Version 1 - Blob, Table and Queue storage working for both AWS and Azure.  Currently focusing entirely on async/await methodology with plans to implement synchronous methods.
@@ -13,10 +15,16 @@ Version 3 - Caching with support for at least Redis - others are TBD
 
 Version 4 - Multiple datacenter redundancy for items in version 1.  I'm aiming to allow this to work with a mixture of cloud service providers (e.g. primary storage could be in Azure and secondary storage in AWS or vice versa).
 The scenarios I'm considering are:
+
 A) Failover - when primary storage is not available, failover to secondary storage.
+
 B) Load balancing - using both primary and secondary storage concurrently to ensure the best performance
+
 C) Geo-based load balancing - based on the location of the client, the closest datacenter will be used.  Ideally this will optionally include both failover and regular load balancing within the same region.
+
 It is unlikely that all scenarios will be available upon each release.  (A) will likely be 4.1, (B) will likely be 4.2, (C) will likely be split across multiple minor revisions (probably 4.3, 4.4 and 4.5)
+
+
 
 Version 5+N - Begin implementing additional data providers beyond AWS/Azure.  Exactly which and in what order is TBD.
 

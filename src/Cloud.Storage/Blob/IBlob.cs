@@ -16,7 +16,6 @@ namespace Cloud.Storage.Blob
 		TimeSpan BreakLease(string leaseId);
 		Task AppendText(string text, string leaseId = null);
 		Task AppendData(byte[] data, string leaseId = null);
-		Task AppendStream(Stream stream, string leaseId = null);
 
 
 	}

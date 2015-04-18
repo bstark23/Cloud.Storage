@@ -12,11 +12,6 @@ namespace Cloud.Storage.AWS.Blob
 			throw new NotImplementedException();
 		}
 
-		public Task AppendStream(Stream stream, string leaseId = null)
-		{
-			throw new NotImplementedException();
-		}
-
 		public Task AppendText(string text, string leaseId = null)
 		{
 			throw new NotImplementedException();
@@ -52,7 +47,7 @@ namespace Cloud.Storage.AWS.Blob
 			throw new NotImplementedException();
 		}
 
-		public async Task UploadFromStream(Stream stream, string leaseId = null)
+		public Task UploadFromStream(Stream stream, string leaseId = null)
 		{
 			throw new NotImplementedException();
 		}

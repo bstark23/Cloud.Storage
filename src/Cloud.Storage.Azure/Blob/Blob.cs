@@ -3,9 +3,11 @@ using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Cloud.Storage.Azure.Blob
 {
@@ -93,15 +95,42 @@ namespace Cloud.Storage.Azure.Blob
 
 		public async Task AppendData(byte[] data, string leaseId = null)
 		{
-			using (var memoryStream = new MemoryStream(data))
-			{
-				await AppendStream(memoryStream, leaseId);
-			}
-		}
+			var blockList = new List<Tuple<string, byte[]>>();
+			int bytesRead = 0;
 
-		public async Task AppendStream(Stream stream, string leaseId = null)
-		{
-			throw new NotImplementedException();
+			while (bytesRead < data.Length)
+			{
+				var currBatch = data.Skip(bytesRead).Take(BlockBatchSize).ToArray();
+
+				blockList.Add(new Tuple<string, byte[]>(Convert.ToBase64String(Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())), currBatch));
+
+				bytesRead += currBatch.Length;
+			}
+
+			foreach (var block in blockList)
+			{
+				using (var memStream = new MemoryStream(block.Item2))
+				{
+					await AzureBlob.PutBlockAsync(block.Item1, memStream, null);
+				}
+			}
+
+			var blockListLeaseId = leaseId ?? AzureBlob.AcquireLease(TimeSpan.FromSeconds(15D), Guid.NewGuid().ToString());
+			var accessCondition = new AccessCondition() { LeaseId = blockListLeaseId };
+			
+			var currentBlockList = AzureBlob.DownloadBlockList(BlockListingFilter.Committed, accessCondition).Select(block => block.Name).ToList();
+
+			foreach (var block in blockList)
+			{
+				currentBlockList.Add(block.Item1);
+			}
+			
+			AzureBlob.PutBlockList(currentBlockList, accessCondition);
+
+			if (leaseId == null)
+			{
+				AzureBlob.ReleaseLease(accessCondition);
+			}
 		}
 
 		private CloudBlockBlob AzureBlob { get; set; }
