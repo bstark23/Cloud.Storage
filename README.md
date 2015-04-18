@@ -1,5 +1,5 @@
 # Cloud.Storage
-A library for abstracting away low-level details of the various different cloud storage providers such that you can program to one interface and interchangeably swap out providers behind the scenes without any code changes.
+A library for abstracting away low-level details of the various different cloud storage providers such that you can program to one interface and interchangeably swap out providers behind the scenes without any code changes.  The other primary goal of this project is to implement the best, most performant practices for all the various providers without the user of the library ever needing to worry or know about the nuance details that are very rarely followed or known about.
 
 This project will inevitably be deployed as a public nuget package.
 
