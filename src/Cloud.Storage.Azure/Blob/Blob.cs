@@ -11,7 +11,9 @@ namespace Cloud.Storage.Azure.Blob
 {
 	public class Blob : IBlob
     {
-        internal Blob(CloudBlockBlob azureBlob)
+		private static int BlockBatchSize = 4194304;
+
+		internal Blob(CloudBlockBlob azureBlob)
         {
             AzureBlob = azureBlob;
         }
@@ -83,7 +85,25 @@ namespace Cloud.Storage.Azure.Blob
                 return AccessCondition.GenerateLeaseCondition(leaseId);
         }
 
+		public async Task AppendText(string text, string leaseId = null)
+		{
+			var binaryData = Encoding.UTF8.GetBytes(text);
+			await AppendData(binaryData, leaseId);
+        }
 
-        private CloudBlockBlob AzureBlob { get; set; }
+		public async Task AppendData(byte[] data, string leaseId = null)
+		{
+			using (var memoryStream = new MemoryStream(data))
+			{
+				await AppendStream(memoryStream, leaseId);
+			}
+		}
+
+		public async Task AppendStream(Stream stream, string leaseId = null)
+		{
+			throw new NotImplementedException();
+		}
+
+		private CloudBlockBlob AzureBlob { get; set; }
     }
 }

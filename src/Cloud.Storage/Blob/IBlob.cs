@@ -14,6 +14,9 @@ namespace Cloud.Storage.Blob
 		Task DeleteIfExists(string leaseId = null);
 		string AquireLease(TimeSpan? lockLength);
 		TimeSpan BreakLease(string leaseId);
+		Task AppendText(string text, string leaseId = null);
+		Task AppendData(byte[] data, string leaseId = null);
+		Task AppendStream(Stream stream, string leaseId = null);
 
 
 	}

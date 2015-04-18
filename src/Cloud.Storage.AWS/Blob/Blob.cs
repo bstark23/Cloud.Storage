@@ -7,6 +7,21 @@ namespace Cloud.Storage.AWS.Blob
 {
 	public class Blob : IBlob
 	{
+		public Task AppendData(byte[] data, string leaseId = null)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task AppendStream(Stream stream, string leaseId = null)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task AppendText(string text, string leaseId = null)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string AquireLease(TimeSpan? lockLength)
 		{
 			throw new NotImplementedException();
