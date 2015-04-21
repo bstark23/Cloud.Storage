@@ -86,6 +86,9 @@
     <Compile Include="StorageClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Retries\StorageRetryPolicy.cs" />
+    <Compile Include="Table\Partitioning\PartitionTable.cs" />
+    <Compile Include="Table\Partitioning\PartitionTableRow.cs" />
+    <Compile Include="Table\Row.cs" />
     <Compile Include="Table\Table.cs" />
     <Compile Include="Table\TableStorageClient.cs" />
   </ItemGroup>

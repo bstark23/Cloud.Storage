@@ -1,8 +1,12 @@
-﻿using Cloud.Storage.Table;
+﻿using System;
+using System.Collections.Generic;
+using Cloud.Storage.Table;
 
-namespace Azure.Storage.Table
+namespace Cloud.Storage.Azure.Table
 {
 	public class Table : ITable
 	{
+
+
 	}
 }
