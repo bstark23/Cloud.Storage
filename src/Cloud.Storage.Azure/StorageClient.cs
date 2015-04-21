@@ -1,5 +1,5 @@
-﻿using Azure.Storage.Queue;
-using Cloud.Storage.Azure.Blob;
+﻿using Cloud.Storage.Azure.Blob;
+using Cloud.Storage.Azure.Queue;
 using Cloud.Storage.Azure.Table;
 using Cloud.Storage.Blob;
 using Cloud.Storage.Queue;
