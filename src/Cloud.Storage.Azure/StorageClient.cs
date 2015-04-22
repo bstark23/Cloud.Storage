@@ -18,7 +18,7 @@ namespace Cloud.Storage.Azure
 	{
 		static StorageClient()
 		{
-			StorageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["AzureStorageConnectionString"]);
+			StorageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageAccountConnectionString"]);
 
 			ServicePointManager.Expect100Continue = false;
 			ServicePointManager.DefaultConnectionLimit = 100;
@@ -28,10 +28,10 @@ namespace Cloud.Storage.Azure
 		public IQueueStorageClient Queues { get { return mQueues.Value; } }
 		public ITableStorageClient Tables { get { return mTables.Value; } }
 		
-		internal static CloudStorageAccount StorageAccount { get; set; }
-		internal static CloudBlobClient BlobClient { get { return mBlobClient.Value; } }
-		internal static CloudTableClient TableClient { get { return mTableClient.Value; } }
-		internal static CloudQueueClient QueueClient { get { return mQueueClient.Value; } }
+		public static CloudStorageAccount StorageAccount { get; set; }
+		public static CloudBlobClient BlobClient { get { return mBlobClient.Value; } }
+		public static CloudTableClient TableClient { get { return mTableClient.Value; } }
+		public static CloudQueueClient QueueClient { get { return mQueueClient.Value; } }
 
 		private static Lazy<IBlobStorageClient> mBlobs = new Lazy<IBlobStorageClient>(() => new BlobStorageClient());
 		private static Lazy<IQueueStorageClient> mQueues = new Lazy<IQueueStorageClient>(() => new QueueStorageClient());

@@ -7,22 +7,30 @@ using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Table.Partitioning
 {
-	public static class PartitionTable
+	public class PartitionTable
 	{
+		public static string PartitionTableName = "Partitions";
+
 		static PartitionTable()
 		{
+			TableStorageClient.GetTable(PartitionTableName, true);
 		}
 
 		public static List<PartitionTableRow> GetPartitionList(string tableName)
 		{
-			var partitionList = TableStorageClient.GetRowsByPartitionKey<PartitionTableRow>(tableName, tableName);
+			var partitionList = TableStorageClient.GetRowsByPartitionKey<PartitionTableRow>(PartitionTableName, tableName);
 			return partitionList.ToList();
 		}
 
 		public static PartitionTableRow GetPartition(string tableName, string partitionKey)
 		{
-			var partition = TableStorageClient.GetRowsByPartitionKey<PartitionTableRow>(tableName, tableName, string.Format("RowKey='{0}'", partitionKey)).SingleOrDefault();
+			var partition = TableStorageClient.GetRowsByPartitionKey<PartitionTableRow>(PartitionTableName, tableName).SingleOrDefault(row => row.RowKey == partitionKey);
 			return partition;
+		}
+
+		public static void UpdatePartition(PartitionTableRow partition)
+		{
+			TableStorageClient.InsertOrUpdateRowInTable(PartitionTableName, partition, true);
 		}
 
 		public static List<PartitionTableRow> GetNewPartitions(string tableName)
@@ -65,7 +73,7 @@ namespace Cloud.Storage.Azure.Table.Partitioning
 			var newPartitions = GetNewPartitions(tableName);
 			if (newPartitions.Any())
 			{
-				TableStorageClient.InsertRowsInTable(tableName, newPartitions);
+				TableStorageClient.InsertOrUpdateRowsInTable(PartitionTableName, newPartitions);
 			}
 		}
 	}

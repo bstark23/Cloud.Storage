@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Cloud.Storage.Azure.Blob;
+using NUnit.Framework;
 using System.IO;
 using System.Threading.Tasks;
 
