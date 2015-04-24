@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Azure.Storage.Tests.Queue
+namespace Cloud.Storage.Azure.Queue.Tests
 {
 	[TestFixture]
 	public class QueueStorageClientTests

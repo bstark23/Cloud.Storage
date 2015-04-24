@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Cloud.Storage.Table;
+﻿using Cloud.Storage.Table;
+using System;
 
 namespace Cloud.Storage.AWS.Table
 {

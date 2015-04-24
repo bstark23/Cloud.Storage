@@ -1,9 +1,6 @@
-﻿using Cloud.Storage.Azure.Blob;
-using NUnit.Framework;
-using System.IO;
-using System.Threading.Tasks;
+﻿using NUnit.Framework;
 
-namespace Cloud.Storage.Azure.Tests.Blob
+namespace Cloud.Storage.Azure.Blob.Tests
 {
 	[TestFixture]
     public class BlobStorageClientTests
