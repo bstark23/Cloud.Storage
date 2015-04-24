@@ -7,73 +7,53 @@ using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Table.Partitioning
 {
-	public class PartitionTable
+	public class PartitionTable : Table
 	{
-		public static string PartitionTableName = "Partitions";
-
-		static PartitionTable()
+		public PartitionTable(CloudTable partitions) 
+			: base(partitions)
 		{
-			TableStorageClient.GetTable(PartitionTableName, true);
 		}
 
-		public static List<PartitionTableRow> GetPartitionList(string tableName)
+		public async Task<List<PartitionTableRow>> GetPartitionList(string tableName)
 		{
-			var partitionList = TableStorageClient.GetRowsByPartitionKey<PartitionTableRow>(PartitionTableName, tableName);
+			var partitionList = await GetRowsByPartitionKey<PartitionTableRow>(tableName);
 			return partitionList.ToList();
 		}
 
-		public static PartitionTableRow GetPartition(string tableName, string partitionKey)
+		public async Task<PartitionTableRow> GetPartition(string tableName, string partitionKey)
 		{
-			var partition = TableStorageClient.GetRowsByPartitionKey<PartitionTableRow>(PartitionTableName, tableName).SingleOrDefault(row => row.RowKey == partitionKey);
+			var partition = (await GetRowsByPartitionKey<PartitionTableRow>(tableName)).SingleOrDefault(row => row.RowKey == partitionKey);
 			return partition;
 		}
 
-		public static void UpdatePartition(PartitionTableRow partition)
+		public async Task UpdatePartition(PartitionTableRow partition)
 		{
-			TableStorageClient.InsertOrUpdateRowInTable(PartitionTableName, partition, true);
+			await InsertOrUpdateRow(partition, true);
 		}
 
-		public static List<PartitionTableRow> GetNewPartitions(string tableName)
+		public async Task<List<PartitionTableRow>> GetNewPartitions(string tableName)
 		{
-			var partitionList = GetPartitionList(tableName);
+			var partitionList = await GetPartitionList(tableName);
 			var lastPartition = partitionList.Count;
-			var filterSB = new StringBuilder();
 
-			if (lastPartition > 0)
-			{
-				filterSB.Append("(");
-				for (var currRow = 0; currRow < partitionList.Count; ++currRow)
-				{
-					if (currRow != 0)
-					{
-						filterSB.AppendFormat(",PartitionKey!='{0}'", partitionList[currRow].RowKey);
-					}
-					else
-					{
-						filterSB.AppendFormat("PartitionKey!='{0}'", partitionList[currRow].RowKey);
-					}
-				}
-				filterSB.Append(")");
-			}
-
-			TableStorageClient.ExecuteActionOnAllRows<TableEntity>(tableName,
+			await ExecuteActionOnAllRows<TableEntity>(
 				row =>
 				{
 					if (!partitionList.Any(partition => partition.RowKey == row.PartitionKey))
 					{
 						partitionList.Add(new PartitionTableRow(tableName, row.PartitionKey));
 					}
-				}, filterSB.ToString());
+				});
 
 			return partitionList.Skip(lastPartition).ToList();
 		}
 
-		public static void UpdatePartitionTable(string tableName)
+		public async Task UpdatePartitionTable(string tableName)
 		{
-			var newPartitions = GetNewPartitions(tableName);
+			var newPartitions = await GetNewPartitions(tableName);
 			if (newPartitions.Any())
 			{
-				TableStorageClient.InsertOrUpdateRowsInTable(PartitionTableName, newPartitions);
+				await InsertOrUpdateRows(newPartitions);
 			}
 		}
 	}

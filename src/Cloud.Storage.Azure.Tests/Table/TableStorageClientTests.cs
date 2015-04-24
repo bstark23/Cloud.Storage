@@ -5,8 +5,9 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Azure.Storage.Tests.Table
+namespace Cloud.Storage.Azure.Table.Tests
 {
 	[TestFixture]
 	public class TableStorageClientTests
@@ -22,44 +23,44 @@ namespace Azure.Storage.Tests.Table
 		}
 
 		[Test]
-		public void TestTableInsertion()
+		public async Task TestTableInsertion()
 		{
 			var rows = GenerateTestRows();
-			TableStorageClient.InsertOrUpdateRowsInTable(TestTableName, rows, true);
+			await TestTable.InsertOrUpdateRowsInTable(rows, true);
 		}
 
 		[Test]
-		public void TestPartitionTableCreation()
+		public async Task TestPartitionTableCreation()
 		{
-			PartitionTable.UpdatePartitionTable(TestTableName);
+			await PartitionTable.UpdatePartitionTable(TestTableName);
 		}
 
 		[Test]
-		public void AddMoreTestRows()
+		public async Task AddMoreTestRows()
 		{
-			AddMoreRowsToExistingPartitions();
+			await AddMoreRowsToExistingPartitions();
 		}
 
 		[Test]
-		public void TestReadNewRowsSinceLastQuery()
+		public async Task TestReadNewRowsSinceLastQuery()
 		{
-			AddMoreRowsToExistingPartitions();
-			foreach (var partition in GetPartitionsForTestTable())
+			foreach (var partition in await GetPartitionsForTestTable())
 			{
-				var latestRows = TableStorageClient.GetNewRowsForPartition<TableEntity>(TestTableName, partition.RowKey);
+				await AddMoreRowsToPartition(partition);
+				var latestRows = await TestTable.GetNewRowsForPartition<TableEntity>(partition.RowKey);
 				Assert.IsTrue(latestRows.Count > 0);
-				latestRows = TableStorageClient.GetNewRowsForPartition<TableEntity>(TestTableName, partition.RowKey);
+				latestRows = await TestTable.GetNewRowsForPartition<TableEntity>(partition.RowKey);
 				Assert.IsTrue(latestRows.Count == 0);
-				AddMoreRowsToPartition(partition);
-				latestRows = TableStorageClient.GetNewRowsForPartition<TableEntity>(TestTableName, partition.RowKey);
+				await AddMoreRowsToPartition(partition);
+				latestRows = await TestTable.GetNewRowsForPartition<TableEntity>(partition.RowKey);
 				Assert.IsTrue(latestRows.Count > 0);
 			}
-        }
+		}
 
-		public static CloudTable GetTestTable()
+		public static Table GetTestTable()
 		{
-			var table = TableStorageClient.GetTable(TestTableName, true);
-			return table;
+			var table = TableStorageClient.GetTable(TestTableName, true).Result;
+			return table as Table;
 		}
 		public static System.Collections.Generic.List<TableEntity> GenerateTestRows()
 		{
@@ -79,37 +80,41 @@ namespace Azure.Storage.Tests.Table
 			return rows;
 		}
 
-		public static void AddMoreRowsToExistingPartitions()
+		public static async Task AddMoreRowsToExistingPartitions()
 		{
-			var partitionList = PartitionTable.GetPartitionList(TestTableName);
+			var partitionList = await TableStorageClient.PartitionTable.GetPartitionList(TestTableName);
 			var rows = new List<TableEntity>();
 
 			foreach (var partition in partitionList)
 			{
-				AddMoreRowsToPartition(partition);
-			}			
+				await AddMoreRowsToPartition(partition);
+			}
 		}
 
-		public static void AddMoreRowsToPartition(PartitionTableRow partition)
+		public static async Task AddMoreRowsToPartition(PartitionTableRow partition)
 		{
 			var rows = new List<TableEntity>();
-			var partitionRows = TableStorageClient.
-					GetRowsByPartitionKey<TableEntity>(TestTableName, partition.RowKey);
+			var partitionRows = await TestTable.
+					GetRowsByPartitionKey<TableEntity>( partition.RowKey);
 
-			var maxRowValue = partitionRows.Max(row => int.Parse(row.RowKey));
+			var maxRowValue = partitionRows.Any() ? partitionRows.Max(row => int.Parse(row.RowKey)) : 0;
 			for (int i = 0; i < TestRowCount; ++i)
 			{
 				++maxRowValue;
 				rows.Add(new TableEntity() { PartitionKey = partition.RowKey, RowKey = maxRowValue.ToString(), ETag = "*", Timestamp = DateTime.UtcNow });
 			}
 
-			TableStorageClient.InsertOrUpdateRowsInTable(TestTableName, rows);
+			await TestTable.InsertOrUpdateRowsInTable(rows);
 		}
 
-		public static List<PartitionTableRow> GetPartitionsForTestTable()
+		public static async Task<List<PartitionTableRow>> GetPartitionsForTestTable()
 		{
-			var partitionList = PartitionTable.GetPartitionList(TestTableName);
+			var partitionList = await PartitionTable.GetPartitionList(TestTableName);
 			return partitionList;
 		}
+
+		private static PartitionTable PartitionTable { get { return TableStorageClient.PartitionTable; } }
+		private static Table TestTable { get { return TableStorageClient.GetTable(TestTableName).Result as Table; } }
+		private static TableStorageClient TableStorageClient { get { return new TableStorageClient(); } }
 	}
 }

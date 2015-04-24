@@ -11,7 +11,7 @@ namespace Cloud.Storage.Azure.Blob
 	{
 		internal BlobStorageClient()
 		{
-			StorageClient.BlobClient.DefaultRequestOptions.RetryPolicy = new StorageRetryPolicy(new Incremental(3, TimeSpan.FromMilliseconds(25D), TimeSpan.FromMilliseconds(25D))); ;
+			BlobClient.DefaultRequestOptions.RetryPolicy = new StorageRetryPolicy(new Incremental(3, TimeSpan.FromMilliseconds(25D), TimeSpan.FromMilliseconds(25D))); ;
 		}
 
 		public async Task<Blob> GetBlob(string uri)
@@ -21,13 +21,13 @@ namespace Cloud.Storage.Azure.Blob
 
 		public async Task<Blob> GetBlob(Uri uri)
 		{
-			var blobReference = await StorageClient.BlobClient.GetBlobReferenceFromServerAsync(uri) as CloudBlockBlob;
+			var blobReference = await BlobClient.GetBlobReferenceFromServerAsync(uri) as CloudBlockBlob;
 			return new Blob(blobReference);
 		}
 
 		public IContainer CreateContainerIfNotExists(string name)
 		{
-			var container = StorageClient.BlobClient.GetContainerReference(name);
+			var container = BlobClient.GetContainerReference(name);
 			container.CreateIfNotExists();
 
 			return new Container(container);
@@ -35,9 +35,12 @@ namespace Cloud.Storage.Azure.Blob
 
 		public Container GetContainer(string name)
 		{
-			var container = StorageClient.BlobClient.GetContainerReference(name);
+			var container = BlobClient.GetContainerReference(name);
 
 			return new Container(container);
 		}
+		public static CloudBlobClient BlobClient { get { return mBlobClient.Value; } }
+		private static Lazy<CloudBlobClient> mBlobClient = new Lazy<CloudBlobClient>(() => StorageClient.StorageAccount.CreateCloudBlobClient());
+
 	}
 }

@@ -29,17 +29,11 @@ namespace Cloud.Storage.Azure
 		public ITableStorageClient Tables { get { return mTables.Value; } }
 		
 		public static CloudStorageAccount StorageAccount { get; set; }
-		public static CloudBlobClient BlobClient { get { return mBlobClient.Value; } }
-		public static CloudTableClient TableClient { get { return mTableClient.Value; } }
-		public static CloudQueueClient QueueClient { get { return mQueueClient.Value; } }
 
 		private static Lazy<IBlobStorageClient> mBlobs = new Lazy<IBlobStorageClient>(() => new BlobStorageClient());
 		private static Lazy<IQueueStorageClient> mQueues = new Lazy<IQueueStorageClient>(() => new QueueStorageClient());
 		private static Lazy<ITableStorageClient> mTables = new Lazy<ITableStorageClient>(() => new TableStorageClient());
 
 
-		private static Lazy<CloudBlobClient> mBlobClient = new Lazy<CloudBlobClient>(() => StorageAccount.CreateCloudBlobClient());
-		private static Lazy<CloudTableClient> mTableClient = new Lazy<CloudTableClient>(() => StorageAccount.CreateCloudTableClient());
-		private static Lazy<CloudQueueClient> mQueueClient = new Lazy<CloudQueueClient>(() => StorageAccount.CreateCloudQueueClient());
 	}
 }
