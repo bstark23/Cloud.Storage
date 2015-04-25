@@ -1,4 +1,5 @@
 ﻿using Cloud.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,11 @@ namespace Cloud.Storage.Azure.Queue
 {
 	public class Message : IMessage
 	{
+		public Message(CloudQueueMessage azureMessage)
+		{
+			AzureMessage = azureMessage;
+		}
+
+		public CloudQueueMessage AzureMessage { get; private set; }
 	}
 }
