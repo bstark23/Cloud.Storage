@@ -12,12 +12,22 @@ namespace Cloud.Storage.AWS.Queues
 			throw new NotImplementedException();
 		}
 
+		public Task Clear()
+		{
+			throw new NotImplementedException();
+		}
+
 		public IMessage CreateMessage(byte[] messageContents)
 		{
 			throw new NotImplementedException();
 		}
 
 		public IMessage CreateMessage(string messageContents)
+		{
+			throw new NotImplementedException();
+		}
+
+		public int GetApproximateMessageCount()
 		{
 			throw new NotImplementedException();
 		}
