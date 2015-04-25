@@ -50,6 +50,7 @@
     <Compile Include="Table\IRow.cs" />
     <Compile Include="Table\ITable.cs" />
     <Compile Include="Table\ITableStorageClient.cs" />
+    <Compile Include="Table\RowReference.cs" />
     <Compile Include="Utilities\SequentialGuid.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

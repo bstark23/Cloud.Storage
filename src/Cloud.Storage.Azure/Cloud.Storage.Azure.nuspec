@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>Cloud.Storage.Azure</id>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <title>Cloud.Storage.Azure</title>
     <authors>Ben Hanson</authors>
     <owners>Ben Hanson</owners>
     <description>A NuGet package encapsulating Azure's storage API while maintaining all best practices for security and performance</description>
-    <copyright>Copyright 2014</copyright>
+    <copyright>Copyright 2015</copyright>
     <dependencies>
       <dependency id="EnterpriseLibrary.TransientFaultHandling" version="6.0.1304.0"  />
       <dependency id="EnterpriseLibrary.TransientFaultHandling.WindowsAzure.Storage" version="6.0.1304.1"  />

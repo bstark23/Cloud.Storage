@@ -7,8 +7,8 @@
     <ProjectGuid>{026A0080-B954-4CE4-8F7A-880AE27C59A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Azure.Storage</RootNamespace>
-    <AssemblyName>Azure.Storage</AssemblyName>
+    <RootNamespace>Cloud.Storage.Azure</RootNamespace>
+    <AssemblyName>Cloud.Storage.Azure</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -81,6 +81,7 @@
     <Compile Include="Blob\Container.cs" />
     <Compile Include="Blob\Blob.cs" />
     <Compile Include="Blob\BlobListItem.cs" />
+    <Compile Include="Queue\Message.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueStorageClient.cs" />
     <Compile Include="StorageClient.cs" />

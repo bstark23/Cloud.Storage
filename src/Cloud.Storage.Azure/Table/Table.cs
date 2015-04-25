@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Cloud.Storage.Table;
+﻿using Cloud.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.Queryable;
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cloud.Storage.Azure.Table
 {
@@ -62,7 +62,7 @@ namespace Cloud.Storage.Azure.Table
 			where T : ITableEntity, new()
 		{
 			var rows = new List<T>();
-			
+
 			TableContinuationToken continuationToken = null;
 			var query = AzureTable.CreateQuery<T>();
 
@@ -149,7 +149,7 @@ namespace Cloud.Storage.Azure.Table
 					lastRowRead = latestRows.Min(row => int.Parse(row.RowKey));
 				}
 			}
-						
+
 			partition.LastReadRowKey = lastRowRead.ToString();
 
 			await TableStorageClient.PartitionTable.UpdatePartition(partition);
@@ -158,7 +158,7 @@ namespace Cloud.Storage.Azure.Table
 		}
 
 		public async Task InsertOrUpdateRow<T>(T row, bool forceOverwrite = false)
-			where T : ITableEntity, new()
+			where T : class, IRow, ITableEntity, new()
 		{
 			await InsertOrUpdateRows(new List<T>() { row }, forceOverwrite);
 		}
@@ -217,7 +217,7 @@ namespace Cloud.Storage.Azure.Table
 
 			return rows;
 		}
-
-		public CloudTable AzureTable { get; private set; }
+		
+		public CloudTable AzureTable { get; private set; }		
 	}
 }
