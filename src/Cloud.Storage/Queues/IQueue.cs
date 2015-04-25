@@ -9,6 +9,8 @@ namespace Cloud.Storage.Queues
 		IMessage CreateMessage(string messageContents);
 		IMessage CreateMessage(byte[] messageContents);
 		Task AddMessage(IMessage message);
+		int GetApproximateMessageCount();
+		Task Clear();
 		Task<IMessage> PeekNextMessage();
 		Task<List<IMessage>> PeekMessages(int numMessages);
 		Task<IMessage> GetNextMessage(TimeSpan? visibilityTimeout = null);

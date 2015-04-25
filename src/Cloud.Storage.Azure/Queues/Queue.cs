@@ -12,7 +12,17 @@ namespace Cloud.Storage.Azure.Queues
 	{
 		public Queue(CloudQueue azureQueue)
 		{
-			azureQueue = AzureQueue;
+			AzureQueue = azureQueue;
+		}
+
+		public int GetApproximateMessageCount()
+		{
+			return AzureQueue.ApproximateMessageCount ?? AzureQueue.PeekMessages(32).Count();
+		}
+
+		public async Task Clear()
+		{
+			await AzureQueue.ClearAsync();
 		}
 
 		public async Task<List<IMessage>> GetMessages(int numMessages, TimeSpan? visibilityTimeout = default(TimeSpan?))
