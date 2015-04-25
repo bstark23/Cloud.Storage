@@ -7,6 +7,21 @@ namespace Cloud.Storage.AWS.Queues
 {
 	public class Queue : IQueue
 	{
+		public Task AddMessage(IMessage message)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IMessage CreateMessage(byte[] messageContents)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IMessage CreateMessage(string messageContents)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<List<IMessage>> GetMessages(int numMessages, TimeSpan? visibilityTimeout = default(TimeSpan?))
 		{
 			throw new NotImplementedException();

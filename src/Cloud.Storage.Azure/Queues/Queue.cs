@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Cloud.Storage.Azure.Tables;
 
 namespace Cloud.Storage.Azure.Queues
 {
@@ -36,6 +37,21 @@ namespace Cloud.Storage.Azure.Queues
 		{
 			var message = await AzureQueue.PeekMessageAsync();
 			return new Message(message);
+		}
+
+		public async Task AddMessage(IMessage message)
+		{
+			var azureMessage = message as Message;
+			await AzureQueue.AddMessageAsync(azureMessage.AzureMessage);
+		}
+		public IMessage CreateMessage(string messageContents)
+		{
+			return StorageClient.CloudStorage.Queues.CreateMessage(messageContents);
+		}
+
+		public IMessage CreateMessage(byte[] messageContents)
+		{
+			return StorageClient.CloudStorage.Queues.CreateMessage(messageContents);
 		}
 
 		public CloudQueue AzureQueue { get; private set; }
