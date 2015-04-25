@@ -77,21 +77,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blob\BlobStorageClient.cs" />
-    <Compile Include="Blob\Container.cs" />
-    <Compile Include="Blob\Blob.cs" />
-    <Compile Include="Blob\BlobListItem.cs" />
-    <Compile Include="Queue\Message.cs" />
-    <Compile Include="Queue\Queue.cs" />
-    <Compile Include="Queue\QueueStorageClient.cs" />
+    <Compile Include="Blobs\BlobStorageClient.cs" />
+    <Compile Include="Blobs\Container.cs" />
+    <Compile Include="Blobs\Blob.cs" />
+    <Compile Include="Blobs\BlobListItem.cs" />
+    <Compile Include="Queues\Message.cs" />
+    <Compile Include="Queues\Queue.cs" />
+    <Compile Include="Queues\QueueStorageClient.cs" />
     <Compile Include="StorageClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Retries\StorageRetryPolicy.cs" />
-    <Compile Include="Table\Partitioning\PartitionTable.cs" />
-    <Compile Include="Table\Partitioning\PartitionTableRow.cs" />
-    <Compile Include="Table\Row.cs" />
-    <Compile Include="Table\Table.cs" />
-    <Compile Include="Table\TableStorageClient.cs" />
+    <Compile Include="Tables\Partitioning\PartitionTable.cs" />
+    <Compile Include="Tables\Partitioning\PartitionTableRow.cs" />
+    <Compile Include="Tables\Row.cs" />
+    <Compile Include="Tables\Table.cs" />
+    <Compile Include="Tables\TableStorageClient.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

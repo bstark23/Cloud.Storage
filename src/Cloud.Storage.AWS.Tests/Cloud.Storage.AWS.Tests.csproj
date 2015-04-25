@@ -47,10 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blob\BlobStorageClientTests.cs" />
+    <Compile Include="Blobs\BlobStorageClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queue\QueueStorageClientTests.cs" />
-    <Compile Include="Table\TableStorageClientTests.cs" />
+    <Compile Include="Queues\QueueStorageClientTests.cs" />
+    <Compile Include="Tables\TableStorageClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

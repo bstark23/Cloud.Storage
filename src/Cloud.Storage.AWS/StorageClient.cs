@@ -1,6 +1,6 @@
-﻿using Cloud.Storage.Blob;
-using Cloud.Storage.Queue;
-using Cloud.Storage.Table;
+﻿using Cloud.Storage.Blobs;
+using Cloud.Storage.Queues;
+using Cloud.Storage.Tables;
 using System;
 
 namespace Cloud.Storage.AWS

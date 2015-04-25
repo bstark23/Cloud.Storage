@@ -1,9 +1,9 @@
-﻿using Cloud.Storage.Azure.Blob;
-using Cloud.Storage.Azure.Queue;
-using Cloud.Storage.Azure.Table;
-using Cloud.Storage.Blob;
-using Cloud.Storage.Queue;
-using Cloud.Storage.Table;
+﻿using Cloud.Storage.Azure.Blobs;
+using Cloud.Storage.Azure.Queues;
+using Cloud.Storage.Azure.Tables;
+using Cloud.Storage.Blobs;
+using Cloud.Storage.Queues;
+using Cloud.Storage.Tables;
 using Microsoft.WindowsAzure.Storage;
 using System;
 using System.Configuration;
