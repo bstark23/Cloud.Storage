@@ -10,6 +10,8 @@ namespace Cloud.Storage.Blobs
 		Task<byte[]> GetData(string leaseId = null);
 		Task UploadData(byte[] data, string leaseId = null);
 		Task UploadText(string text, string leaseId = null);
+		Task<byte[]> DownloadData(string leaseId = null);
+		Task<string> DownloadText(string leaseId = null);
 		Task UploadFromStream(Stream stream, string leaseId = null);
 		Task DeleteIfExists(string leaseId = null);
 		string AquireLease(TimeSpan? lockLength);

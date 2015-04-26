@@ -1,7 +1,9 @@
-﻿namespace Cloud.Storage.Blobs
+﻿using System.Threading.Tasks;
+
+namespace Cloud.Storage.Blobs
 {
 	public interface IBlobStorageClient
 	{
-		IContainer CreateContainerIfNotExists(string containerName);
-    }
+		Task<IContainer> GetContainer(string containerName, bool createIfNotExists = false);
+	}
 }

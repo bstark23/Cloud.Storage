@@ -25,20 +25,18 @@ namespace Cloud.Storage.Azure.Blobs
 			return new Blob(blobReference);
 		}
 
-		public IContainer CreateContainerIfNotExists(string name)
+		public async Task<IContainer> GetContainer(string name, bool createIfNotExists)
 		{
 			var container = BlobClient.GetContainerReference(name);
-			container.CreateIfNotExists();
+
+			if (createIfNotExists)
+			{
+				await container.CreateIfNotExistsAsync();
+			}
 
 			return new Container(container);
 		}
 
-		public Container GetContainer(string name)
-		{
-			var container = BlobClient.GetContainerReference(name);
-
-			return new Container(container);
-		}
 		public static CloudBlobClient BlobClient { get { return mBlobClient.Value; } }
 		private static Lazy<CloudBlobClient> mBlobClient = new Lazy<CloudBlobClient>(() => StorageClient.StorageAccount.CreateCloudBlobClient());
 

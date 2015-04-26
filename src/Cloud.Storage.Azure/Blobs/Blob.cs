@@ -133,6 +133,22 @@ namespace Cloud.Storage.Azure.Blobs
 			}
 		}
 
+		public async Task<byte[]> DownloadData(string leaseId = null)
+		{
+			//TODO: Implement leaseId support correctly
+			using (var stream = new MemoryStream())
+			{
+				await AzureBlob.DownloadToStreamAsync(stream);
+
+				return stream.ToArray();
+			}
+		}
+
+		public async Task<string> DownloadText(string leaseId = null)
+		{
+			return Encoding.UTF8.GetString((await DownloadData()));
+		}
+
 		private CloudBlockBlob AzureBlob { get; set; }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Cloud.Storage.Blobs;
 using System;
+using System.Threading.Tasks;
 
 namespace Cloud.Storage.AWS.Blobs
 {
 	public class BlobStorageClient : IBlobStorageClient
 	{
-		public IContainer CreateContainerIfNotExists(string containerName)
+		public Task<IContainer> GetContainer(string containerName, bool createIfNotExists)
 		{
 			throw new NotImplementedException();
 		}

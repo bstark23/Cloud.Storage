@@ -37,6 +37,16 @@ namespace Cloud.Storage.AWS.Blobs
 			throw new NotImplementedException();
 		}
 
+		public Task<byte[]> DownloadData(string leaseId = null)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<string> DownloadText(string leaseId = null)
+		{
+			throw new NotImplementedException();
+		}
+
 		public async Task<byte[]> GetData(string leaseId = null)
 		{
 			throw new NotImplementedException();
