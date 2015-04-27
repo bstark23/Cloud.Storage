@@ -2,8 +2,8 @@
 <package >
 	<metadata>
 		<id>Cloud.Storage</id>
-		<version>0.0.1-alpha</version>
-		<title>Cloud.Storage.Azure</title>
+		<version>0.0.4-alpha</version>
+		<title>Cloud.Storage</title>
 		<authors>Ben Hanson</authors>
 		<owners>Ben Hanson</owners>
 		<description>A NuGet package encapsulating all cloud storage APIs while maintaining all best practices for security and performance</description>

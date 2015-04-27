@@ -98,14 +98,10 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Cloud.Storage.Azure.nuspec" />
+    <None Include="Cloud.Storage.Azure.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cloud.Storage\Cloud.Storage.csproj">
-      <Project>{09620a68-5435-47c1-b188-c59f77caaf12}</Project>
-      <Name>Cloud.Storage</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
