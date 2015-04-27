@@ -1,5 +1,6 @@
 ﻿using Cloud.Storage.Azure.Tables.Partitioning;
 using Cloud.Storage.Tables;
+using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Threading.Tasks;
@@ -9,6 +10,26 @@ namespace Cloud.Storage.Azure.Tables
 	public class TableStorageClient : ITableStorageClient
 	{
 		private static string PartitionTableName = "Partitions";
+
+		static TableStorageClient()
+		{
+			var usePartitionTableSetting = string.Empty;
+			try
+			{
+				usePartitionTableSetting = CloudConfigurationManager.GetSetting("UsePartitionTable");
+			}
+			catch
+			{
+			}
+			if (!string.IsNullOrWhiteSpace(usePartitionTableSetting))
+			{
+				UsePartitionTable = bool.Parse(usePartitionTableSetting);
+			}
+			else
+			{
+				UsePartitionTable = true;
+			}
+        }
 
 		public async Task<ITable> GetTable(string tableName, bool createIfNotExists = false)
 		{
@@ -27,6 +48,8 @@ namespace Cloud.Storage.Azure.Tables
 
 			return table;
 		}
+
+		public static bool UsePartitionTable { get; private set; }
 
 		public static CloudTableClient TableClient { get { return mTableClient.Value; } }
 		public static PartitionTable PartitionTable { get { return mPartitionTable.Value; } }

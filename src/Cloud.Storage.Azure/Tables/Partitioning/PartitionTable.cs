@@ -7,7 +7,7 @@ namespace Cloud.Storage.Azure.Tables.Partitioning
 {
 	public class PartitionTable : Table
 	{
-		public PartitionTable(CloudTable partitions) 
+		public PartitionTable(CloudTable partitions)
 			: base(partitions)
 		{
 		}
@@ -24,17 +24,25 @@ namespace Cloud.Storage.Azure.Tables.Partitioning
 			return partition;
 		}
 
-		public async Task UpdatePartition(PartitionTableRow partition)
+		public async Task UpdatePartition(PartitionTableRow partition, bool forceOverwrite = true)
 		{
-			await InsertOrUpdateRow(partition, true);
+			try
+			{
+				await InsertOrUpdateRow(partition, forceOverwrite);
+			}
+			catch
+			{
+				//Just blindly eating exception here while I try and figure out the best way of only inserting new partitions without a bunhc of queries.
+			}
 		}
 
 		public async Task<List<PartitionTableRow>> GetNewPartitions(string tableName)
 		{
 			var partitionList = await GetPartitionList(tableName);
 			var lastPartition = partitionList.Count;
+			var table = await StorageClient.CloudStorage.Tables.GetTable(tableName) as Table;
 
-			await ExecuteActionOnAllRows<TableEntity>(
+			await table.ExecuteActionOnAllRows<TableEntity>(
 				row =>
 				{
 					if (!partitionList.Any(partition => partition.RowKey == row.PartitionKey))
@@ -51,7 +59,7 @@ namespace Cloud.Storage.Azure.Tables.Partitioning
 			var newPartitions = await GetNewPartitions(tableName);
 			if (newPartitions.Any())
 			{
-				await InsertOrUpdateRows(newPartitions);
+				await InsertOrUpdateRows(newPartitions, true);
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using Cloud.Storage.Tables;
+﻿using Cloud.Storage.Azure.Tables.Partitioning;
+using Cloud.Storage.Tables;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.Queryable;
 using System;
@@ -30,7 +31,7 @@ namespace Cloud.Storage.Azure.Tables
 			int currentRowNumber = 0;
 
 			foreach (var partitionedRows in rowsByPartition)
-			{
+			{				
 				var rowList = partitionedRows.ToList();
 
 				foreach (var currentRow in rowList)
@@ -38,7 +39,8 @@ namespace Cloud.Storage.Azure.Tables
 					currentRow.Timestamp = DateTime.UtcNow;
 					if (!forceOverwrite)
 					{
-						insertQuery.Insert(currentRow);
+						currentRow.ETag = "*";
+						insertQuery.InsertOrReplace(currentRow);
 					}
 					else
 					{
@@ -76,7 +78,10 @@ namespace Cloud.Storage.Azure.Tables
 					action(currentRow);
 				}
 
-				continuationToken = segmentedQuery.ContinuationToken;
+				if (segmentedQuery.ContinuationToken == null)
+					break;
+
+                continuationToken = segmentedQuery.ContinuationToken;
 			}
 			while (continuationToken != null);
 		}
@@ -111,46 +116,35 @@ namespace Cloud.Storage.Azure.Tables
 			return rows;
 		}
 
-		public async Task<List<T>> GetNewRowsForPartition<T>(string partitionKey, bool ascendingRowKeys = true)
+		public async Task<List<T>> GetNewRowsForPartition<T>(string partitionKey, Int64? fromValue = null, Int64? toValue = null)
 			where T : ITableEntity, new()
 		{
 			var partition = await TableStorageClient.PartitionTable.GetPartition(AzureTable.Name, partitionKey);
 			var latestRows = new List<T>();
 
-			latestRows = await GetRowsByPartitionKey<T>(partitionKey);
-			if (!string.IsNullOrWhiteSpace(partition.LastReadRowKey))
+			var rowStart = fromValue.HasValue ? fromValue.Value : partition.LastReadRowKey;
+			var rowEnd = toValue.HasValue ? toValue.Value : (partition.AscendingRowOrdering ? Int64.MaxValue : 0);
+
+			latestRows = await GetRowsByPartitionKey<T>(partitionKey, rowStart, rowEnd);
+
+			Int64 lastRowRead = partition.LastReadRowKey;
+
+			if (partition.AscendingRowOrdering)
 			{
-				if (ascendingRowKeys)
-				{
-					latestRows = latestRows.Where(row => int.Parse(row.RowKey) > int.Parse(partition.LastReadRowKey)).ToList();
-				}
-				else
-				{
-					latestRows = latestRows.Where(row => int.Parse(row.RowKey) < int.Parse(partition.LastReadRowKey)).ToList();
-
-				}
-			}
-
-			var lastRowRead = 0;
-
-			if (ascendingRowKeys)
-			{
-				lastRowRead = !string.IsNullOrWhiteSpace(partition.LastReadRowKey) ? int.Parse(partition.LastReadRowKey) : 0;
 				if (latestRows.Count > 0)
 				{
-					lastRowRead = latestRows.Max(row => int.Parse(row.RowKey));
+					lastRowRead = latestRows.Max(row => Int64.Parse(row.RowKey));
 				}
 			}
 			else
 			{
-				lastRowRead = !string.IsNullOrWhiteSpace(partition.LastReadRowKey) ? int.Parse(partition.LastReadRowKey) : int.MaxValue;
 				if (latestRows.Count > 0)
 				{
-					lastRowRead = latestRows.Min(row => int.Parse(row.RowKey));
+					lastRowRead = latestRows.Min(row => Int64.Parse(row.RowKey));
 				}
 			}
 
-			partition.LastReadRowKey = lastRowRead.ToString();
+			partition.LastReadRowKey = lastRowRead;
 
 			await TableStorageClient.PartitionTable.UpdatePartition(partition);
 
@@ -163,49 +157,17 @@ namespace Cloud.Storage.Azure.Tables
 			await InsertOrUpdateRows(new List<T>() { row }, forceOverwrite);
 		}
 
-		public async Task InsertOrUpdateRowsInTable<T>(List<T> rows, bool forceOverwrite = false)
-			where T : ITableEntity, new()
-		{
-			var rowsByPartition = rows.GroupBy(row => row.PartitionKey).ToList();
-			var insertQuery = new TableBatchOperation();
-			int currentRowNumber = 0;
-
-			foreach (var partitionedRows in rowsByPartition)
-			{
-				var rowList = partitionedRows.ToList();
-
-				foreach (var currentRow in rowList)
-				{
-					currentRow.Timestamp = DateTime.UtcNow;
-					if (!forceOverwrite)
-					{
-						insertQuery.Insert(currentRow);
-					}
-					else
-					{
-						currentRow.ETag = "*";
-						insertQuery.InsertOrReplace(currentRow);
-					}
-
-					++currentRowNumber;
-
-					if (currentRowNumber == 1000 || currentRowNumber == rowList.Count)
-					{
-						await AzureTable.ExecuteBatchAsync(insertQuery);
-						insertQuery = new TableBatchOperation();
-						currentRowNumber = 0;
-					}
-				}
-			}
-		}
-
-		public async Task<List<T>> GetRowsByPartitionKey<T>(string partitionKey)
+		public async Task<List<T>> GetRowsByPartitionKey<T>(string partitionKey, Int64? fromValue = null, Int64? toValue = null)
 			where T : ITableEntity, new()
 		{
 			var rows = new List<T>();
 			TableContinuationToken continuationToken = null;
 
-			var query = AzureTable.CreateQuery<T>().Where(row => row.PartitionKey == partitionKey).AsTableQuery();
+
+			var rowStart = (fromValue.HasValue ? fromValue.Value : 0).ToStringComparableValue();
+			var rowEnd = (toValue.HasValue ? toValue.Value : Int64.MaxValue).ToStringComparableValue();
+
+			var query = AzureTable.CreateQuery<T>().Where(row => row.PartitionKey == partitionKey && row.RowKey.CompareTo(rowStart) > 0 ).AsTableQuery();
 
 			do
 			{
@@ -217,7 +179,7 @@ namespace Cloud.Storage.Azure.Tables
 
 			return rows;
 		}
-		
-		public CloudTable AzureTable { get; private set; }		
+
+		public CloudTable AzureTable { get; private set; }
 	}
 }

@@ -26,7 +26,7 @@ namespace Cloud.Storage.Azure.Tests.Tables
 		public async Task TestTableInsertion()
 		{
 			var rows = GenerateTestRows();
-			await TestTable.InsertOrUpdateRowsInTable(rows, true);
+			await TestTable.InsertOrUpdateRows(rows, true);
 		}
 
 		[Test]
@@ -65,13 +65,13 @@ namespace Cloud.Storage.Azure.Tests.Tables
 		public static System.Collections.Generic.List<TableEntity> GenerateTestRows()
 		{
 			var rows = new List<TableEntity>();
-			for (int i = 0; i < TestRowCount; ++i)
+			for (Int64 i = 0; i < TestRowCount; ++i)
 			{
 				rows.Add(
 					new TableEntity()
 					{
 						PartitionKey = Guid.NewGuid().ToString(),
-						RowKey = i.ToString(),
+						RowKey = i.ToStringComparableValue(),
 						ETag = "*",
 						Timestamp = DateTime.UtcNow
 					});
@@ -97,14 +97,14 @@ namespace Cloud.Storage.Azure.Tests.Tables
 			var partitionRows = await TestTable.
 					GetRowsByPartitionKey<TableEntity>( partition.RowKey);
 
-			var maxRowValue = partitionRows.Any() ? partitionRows.Max(row => int.Parse(row.RowKey)) : 0;
-			for (int i = 0; i < TestRowCount; ++i)
+			var maxRowValue = (Int64)(partitionRows.Any() ? partitionRows.Max(row => Int64.Parse(row.RowKey)) : 0);
+			for (var i = 0; i < TestRowCount; ++i)
 			{
 				++maxRowValue;
-				rows.Add(new TableEntity() { PartitionKey = partition.RowKey, RowKey = maxRowValue.ToString(), ETag = "*", Timestamp = DateTime.UtcNow });
+				rows.Add(new TableEntity() { PartitionKey = partition.RowKey, RowKey = maxRowValue.ToStringComparableValue(), ETag = "*", Timestamp = DateTime.UtcNow });
 			}
 
-			await TestTable.InsertOrUpdateRowsInTable(rows);
+			await TestTable.InsertOrUpdateRows(rows);
 		}
 
 		public static async Task<List<PartitionTableRow>> GetPartitionsForTestTable()

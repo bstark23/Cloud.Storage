@@ -42,6 +42,7 @@
     <Compile Include="Blobs\IBlob.cs" />
     <Compile Include="Blobs\IBlobStorageClient.cs" />
     <Compile Include="Blobs\IContainer.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="IStorageClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queues\IMessage.cs" />
@@ -52,6 +53,9 @@
     <Compile Include="Tables\ITableStorageClient.cs" />
     <Compile Include="Tables\RowReference.cs" />
     <Compile Include="Utilities\SequentialGuid.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Cloud.Storage.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
