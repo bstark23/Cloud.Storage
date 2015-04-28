@@ -28,7 +28,7 @@ namespace Cloud.Storage.Azure.Tables.Partitioning
 		{
 			try
 			{
-				await InsertOrUpdateRow(partition, forceOverwrite);
+				await InsertOrUpdateRow(partition, forceOverwrite, false);
 			}
 			catch
 			{
@@ -59,7 +59,7 @@ namespace Cloud.Storage.Azure.Tables.Partitioning
 			var newPartitions = await GetNewPartitions(tableName);
 			if (newPartitions.Any())
 			{
-				await InsertOrUpdateRows(newPartitions, true);
+				await InsertOrUpdateRows(newPartitions, true, false);
 			}
 		}
 	}

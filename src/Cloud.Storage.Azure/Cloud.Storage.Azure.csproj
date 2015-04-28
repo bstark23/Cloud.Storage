@@ -93,7 +93,12 @@
     <Compile Include="Tables\Table.cs" />
     <Compile Include="Tables\TableStorageClient.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Cloud.Storage\Cloud.Storage.csproj">
+      <Project>{09620a68-5435-47c1-b188-c59f77caaf12}</Project>
+      <Name>Cloud.Storage</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>

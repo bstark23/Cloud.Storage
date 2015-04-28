@@ -23,7 +23,7 @@ namespace Cloud.Storage.Azure.Tables
 			return AzureTable.Exists();
 		}
 
-		public async Task InsertOrUpdateRows<T>(List<T> rows, bool forceOverwrite = false)
+		public async Task InsertOrUpdateRows<T>(List<T> rows, bool forceOverwrite = false, bool updatePartitionTable = true)
 			where T : ITableEntity, new()
 		{
 			var rowsByPartition = rows.GroupBy(row => row.PartitionKey).ToList();
@@ -31,13 +31,29 @@ namespace Cloud.Storage.Azure.Tables
 			int currentRowNumber = 0;
 
 			foreach (var partitionedRows in rowsByPartition)
-			{				
+			{
+				if (updatePartitionTable)
+				{
+					try
+					{
+						var partitionRow = new PartitionTableRow(Name, partitionedRows.Key);
+						await TableStorageClient.PartitionTable.InsertOrUpdateRow(partitionRow, false, false);
+					}
+					catch
+					{
+					}
+				}
 				var rowList = partitionedRows.ToList();
 
 				foreach (var currentRow in rowList)
 				{
 					currentRow.Timestamp = DateTime.UtcNow;
-					if (!forceOverwrite)
+					if (string.IsNullOrWhiteSpace(currentRow.ETag))
+					{
+						currentRow.ETag = "*";
+						insertQuery.InsertOrReplace(currentRow);
+					}
+					else if (!forceOverwrite)
 					{
 						currentRow.ETag = "*";
 						insertQuery.InsertOrReplace(currentRow);
@@ -81,7 +97,7 @@ namespace Cloud.Storage.Azure.Tables
 				if (segmentedQuery.ContinuationToken == null)
 					break;
 
-                continuationToken = segmentedQuery.ContinuationToken;
+				continuationToken = segmentedQuery.ContinuationToken;
 			}
 			while (continuationToken != null);
 		}
@@ -151,10 +167,10 @@ namespace Cloud.Storage.Azure.Tables
 			return latestRows;
 		}
 
-		public async Task InsertOrUpdateRow<T>(T row, bool forceOverwrite = false)
+		public async Task InsertOrUpdateRow<T>(T row, bool forceOverwrite = false, bool updatePartitionTable = true)
 			where T : class, IRow, ITableEntity, new()
 		{
-			await InsertOrUpdateRows(new List<T>() { row }, forceOverwrite);
+			await InsertOrUpdateRows(new List<T>() { row }, forceOverwrite, updatePartitionTable);
 		}
 
 		public async Task<List<T>> GetRowsByPartitionKey<T>(string partitionKey, Int64? fromValue = null, Int64? toValue = null)
@@ -167,7 +183,7 @@ namespace Cloud.Storage.Azure.Tables
 			var rowStart = (fromValue.HasValue ? fromValue.Value : 0).ToStringComparableValue();
 			var rowEnd = (toValue.HasValue ? toValue.Value : Int64.MaxValue).ToStringComparableValue();
 
-			var query = AzureTable.CreateQuery<T>().Where(row => row.PartitionKey == partitionKey && row.RowKey.CompareTo(rowStart) > 0 ).AsTableQuery();
+			var query = AzureTable.CreateQuery<T>().Where(row => row.PartitionKey == partitionKey && row.RowKey.CompareTo(rowStart) > 0).AsTableQuery();
 
 			do
 			{

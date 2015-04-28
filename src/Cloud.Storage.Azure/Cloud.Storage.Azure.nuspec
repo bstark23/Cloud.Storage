@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Cloud.Storage.Azure</id>
-		<version>0.0.4-alpha</version>
+		<version>0.0.5-alpha</version>
 		<title>Cloud.Storage.Azure</title>
 		<authors>Ben Hanson</authors>
 		<owners>Ben Hanson</owners>
@@ -22,7 +22,7 @@
 			<dependency id="Newtonsoft.Json" version="6.0.8"  />
 			<dependency id="System.Spatial" version="5.6.4"  />
 			<dependency id="WindowsAzure.Storage" version="4.3.0"  />
-			<dependency id="Cloud.Storage" version="0.0.3-alpha"  />
+			<dependency id="Cloud.Storage" version="0.0.5-alpha"  />
 		</dependencies>
 	</metadata>
 </package>
