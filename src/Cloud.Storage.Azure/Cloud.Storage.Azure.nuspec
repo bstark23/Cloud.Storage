@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>Cloud.Storage.Azure</id>
+		<version>0.0.5-alpha</version>
+		<title>Cloud.Storage.Azure</title>
+		<authors>Ben Hanson</authors>
+		<owners>Ben Hanson</owners>
+		<description>A NuGet package encapsulating Azure's storage API while maintaining all best practices for security and performance</description>
+		<copyright>Copyright 2015</copyright>
+		<licenseUrl>https://github.com/bstark23/Cloud.Storage/blob/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/bstark23/Cloud.Storage</projectUrl>
+		<iconUrl>http://benjaminstarkhanson.com/wp-content/uploads/2015/04/ThoughtProductsLogo_Square_32.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<dependencies>
+			<dependency id="EnterpriseLibrary.TransientFaultHandling" version="6.0.1304.0"  />
+			<dependency id="EnterpriseLibrary.TransientFaultHandling.WindowsAzure.Storage" version="6.0.1304.1"  />
+			<dependency id="Microsoft.Data.Edm" version="5.6.4"  />
+			<dependency id="Microsoft.Data.OData" version="5.6.4"  />
+			<dependency id="Microsoft.Data.Services.Client" version="5.6.4"  />
+			<dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.1.0"  />
+			<dependency id="Newtonsoft.Json" version="6.0.8"  />
+			<dependency id="System.Spatial" version="5.6.4"  />
+			<dependency id="WindowsAzure.Storage" version="4.3.0"  />
+			<dependency id="Cloud.Storage" version="0.0.5-alpha"  />
+		</dependencies>
+	</metadata>
+</package>

@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F415164D-108B-4B47-9C80-DDC9181875FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Storage.Azure", "Cloud.Storage.Azure\Cloud.Storage.Azure.csproj", "{026A0080-B954-4CE4-8F7A-880AE27C59A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Storage.Azure.Tests", "Cloud.Storage.Azure.Tests\Cloud.Storage.Azure.Tests.csproj", "{F8E0807B-8419-4217-BEC7-DE32F6E20582}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{69E378C2-F145-4D19-80A7-6F0A8C41B582}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Storage.AWS", "Cloud.Storage.AWS\Cloud.Storage.AWS.csproj", "{5C7A9CF2-8E30-4368-9178-E9ABCC58CB07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Storage.AWS.Tests", "Cloud.Storage.AWS.Tests\Cloud.Storage.AWS.Tests.csproj", "{AC95FB39-3FB2-4754-97A2-7FF42DA722CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Storage", "Cloud.Storage\Cloud.Storage.csproj", "{09620A68-5435-47C1-B188-C59F77CAAF12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FD367EFD-B3CF-48C7-A4DA-5317BDDBCA21}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{6E299936-042E-40C2-933B-5036B51A4435}"
+	ProjectSection(SolutionItems) = preProject
+		user.config = user.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{026A0080-B954-4CE4-8F7A-880AE27C59A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{026A0080-B954-4CE4-8F7A-880AE27C59A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{026A0080-B954-4CE4-8F7A-880AE27C59A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{026A0080-B954-4CE4-8F7A-880AE27C59A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E0807B-8419-4217-BEC7-DE32F6E20582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E0807B-8419-4217-BEC7-DE32F6E20582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E0807B-8419-4217-BEC7-DE32F6E20582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E0807B-8419-4217-BEC7-DE32F6E20582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C7A9CF2-8E30-4368-9178-E9ABCC58CB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C7A9CF2-8E30-4368-9178-E9ABCC58CB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C7A9CF2-8E30-4368-9178-E9ABCC58CB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C7A9CF2-8E30-4368-9178-E9ABCC58CB07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC95FB39-3FB2-4754-97A2-7FF42DA722CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC95FB39-3FB2-4754-97A2-7FF42DA722CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC95FB39-3FB2-4754-97A2-7FF42DA722CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC95FB39-3FB2-4754-97A2-7FF42DA722CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09620A68-5435-47C1-B188-C59F77CAAF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09620A68-5435-47C1-B188-C59F77CAAF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09620A68-5435-47C1-B188-C59F77CAAF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09620A68-5435-47C1-B188-C59F77CAAF12}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8E0807B-8419-4217-BEC7-DE32F6E20582} = {F415164D-108B-4B47-9C80-DDC9181875FE}
+		{AC95FB39-3FB2-4754-97A2-7FF42DA722CB} = {F415164D-108B-4B47-9C80-DDC9181875FE}
+	EndGlobalSection
+EndGlobal
