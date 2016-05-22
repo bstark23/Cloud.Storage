@@ -92,6 +92,10 @@
     <Compile Include="Tables\TableStorageClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\user.config">
+      <Link>user.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
